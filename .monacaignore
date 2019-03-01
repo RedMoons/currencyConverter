@@ -7,4 +7,4 @@
 .vscode/
 typings/
 node_modules
-www
+.git

@@ -55,14 +55,12 @@ export default class App extends React.Component {
             datas[currency] = dataArr;
           }
         }
-        console.log(datas);
 
         let keys = Object.keys(datas);
         for(let i = 0; i < keys.length; i++) {
           let data = {name: keys[i], data: datas[keys[i]]}
           series.push(data);
         }
-        console.log(series);
 
         this_.drawChart(series);
 
@@ -87,10 +85,16 @@ export default class App extends React.Component {
         pinchType: false
       },
       rangeSelector: {
-        selected: 1
+        selected: 0
       },
       title: {
         text: 'Currency History based on USD'
+      },
+      credits: {
+        enabled: false
+      },
+      legend: {
+        enabled: true
       },
       xAxis: {
         type: 'datetime'
@@ -98,14 +102,31 @@ export default class App extends React.Component {
       yAxis: {
         title: {
             text: 'Exchange value'
-        }
+        },
+        labels: {
+          formatter: function () {
+            return (this.value > 0 ? ' + ' : '') + this.value + '%';
+          }
+        },
+        plotLines: [{
+          value: 0,
+          width: 1,
+          color: 'silver'
+        }]
       },
       tooltip: {
-        shared: true
+        shared: true,
+        pointFormat: '<span style="color:{series.color}">{series.name}</span>: <b>{point.y}</b> ({point.change}%)<br/>',
+        valueDecimals: 2,
+        split: true
       },
       plotOptions: {
         line: {
           lineWidth: 1
+        },
+        series: {
+          compare: 'percent',
+          showInNavigator: true
         }
       },
       series: data
